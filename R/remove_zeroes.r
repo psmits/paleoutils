@@ -10,6 +10,7 @@
 #' @param tol tolerance level for removal
 #' @keywords
 #' @export
+#' @author Peter D Smits <psmits@uchicago.edu>
 #' @examples
 remove.low <- function(pbdb, tol = 1) {
   mat <- pbdb$occurence

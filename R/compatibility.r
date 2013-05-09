@@ -17,7 +17,10 @@
 #' @param t2 type of the second character
 #' @param UNKNOWN value of unknown character state scores
 #' @param INAP value of inapplicable character state scores
+#' @return 
 #' @keywords
+#' @author Peter D Smits <psmits@uchicago.edu>
+#' @references
 #' @export
 #' @examples
 Compatibility <- function(ch1, ch2, 
@@ -130,6 +133,7 @@ Compatibility <- function(ch1, ch2,
 #' @param pa 3x2 matrix of state pairs
 #' @param u1 state identities (values) of the first column
 #' @param u2 state identities (values) of the second column
+#' @author Peter D Smits <psmits@uchicago.edu>
 FindSwing <- function (pa, u1, u2) {
   
   if (any(pa[, 1] == u1[1] & pa[, 2] == u2[1]) & 

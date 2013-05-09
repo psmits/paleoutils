@@ -11,6 +11,7 @@
 #' @param raw.pbdb raw output occurence matrix from the PBDB
 #' @keywords IO
 #' @export
+#' @author Peter D Smits <psmits@uchicago.edu>
 #' @examples
 clean.pbdb <- function(raw.pbdb) {
   out <- list()

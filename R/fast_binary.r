@@ -5,6 +5,7 @@
 #'
 #' @param cp n x 2 matrix where n is the number of taxa
 #' @export
+#' @author Peter D Smits <psmits@uchicago.edu>
 #' @examples cp <- matrix(c(0, 0, 1, 0, 1, 1), ncol = 2)
 #'           comp <- fast.comp(cp)  # 1
 #'

@@ -9,6 +9,7 @@
 #'        fails of more than one result
 #' @keywords
 #' @export
+#' @author Peter D Smits <psmits@uchicago.edu>
 #' @examples
 collapse.names <- function(pbdb, level = 'genus_name') {
   if(!(class(pbdb) == 'pbdb')) {
