@@ -13,9 +13,9 @@ taxon.bipartite <- function(pbdb, weight = FALSE) {
   nn <- melt(cbind(rownames(tt$occurence), tt$occurence))
 
   if(!weight) {
-    nn.g <- graph.data.frame(nn[, 1:2])
+    nn.g <- graph.data.frame(nn[, 2:1], directed = FALSE)
   } else if(weight) {
-    nn.g <- graph.data.frame(nn)
+    nn.g <- graph.data.frame(nn[, c(2:1, 3)], directed = FALSE)
   }
 
   V(nn.g)$type <- V(nn.g)$name %in% rownames(tt$occurence)
