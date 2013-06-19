@@ -15,7 +15,7 @@
 #' @return
 #' @export
 #' @keywords
-#' @author Peter D Smits psmits@uchicago.edu
+#' @author Peter D Smits <psmits@uchicago.edu>
 #' @references
 #' @examples
 bc <- function(graph, l.small = TRUE) {
@@ -38,10 +38,11 @@ bc <- function(graph, l.small = TRUE) {
   bc
 }
 
-#' Calculate the number of endemics
+#' Calculate the average number of endemics
 #'
 #' An endemic is a taxa that that occurs at only one locality. 
 #' This is a property of a bipartite biogeographic network.
+#' This function only returns the average number of endemics in a graph.
 #'
 #' THIS IS FROM A PAPER THAT I NEED TO ADD THE FORMAL CITATION 
 #' SIDOR ET AL. PNAS 2013
@@ -50,14 +51,13 @@ bc <- function(graph, l.small = TRUE) {
 #'
 #' @param graph object of class igraph (bipartite)
 #' @param l.small logical if smaller part of bipartite projection is locality information
-#' @param num logical if return list of number of endemics or vector of endemics (node numbers)
 #' @return
 #' @export
 #' @keywords
-#' @author Peter D Smits psmits@uchicago.edu
+#' @author Peter D Smits <psmits@uchicago.edu>
 #' @references
 #' @examples
-endemic <- function(graph, l.small = TRUE, num = TRUE) {
+endemic <- function(graph, l.small = TRUE) {
   bip <- bipartite.projection(graph)
   len <- lapply(bip, function(x) length(V(x)))
   ws <- which.min(unlist(len))
@@ -72,11 +72,7 @@ endemic <- function(graph, l.small = TRUE, num = TRUE) {
   nei <- lapply(nam, function(x) neighbors(graph, x))
 
   endem <- corefind(nei)
-  if(num) {
-    return(lapply(endem, length))
-  } else if(!num) {
-    return(endem)
-  }
+  mean(unlist(lapply(endem, length)))
 }
 
 #' Find the unique neihbors for each node
@@ -86,7 +82,12 @@ endemic <- function(graph, l.small = TRUE, num = TRUE) {
 #' @references
 corefind <- function(nei){
   # find the intersect all pairwise comparisons
-  pw <- combn(length(nei), 2)
+  if(length(nei) > 1) {
+    pw <- combn(length(nei), 2)
+  } else {
+    return(0)
+  }
+
   ints <- list()
   for(ii in seq(ncol(pw))) {
     ints[[ii]] <- intersect(nei[[pw[1, ii]]], nei[[pw[2, ii]]])
