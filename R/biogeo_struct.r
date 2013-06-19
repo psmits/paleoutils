@@ -95,3 +95,35 @@ corefind <- function(nei){
   uu <- unique(unlist(ints))
   lapply(nei, function(x) x[!(x %in% uu)])
 }
+
+#' Average occurence of taxa
+#'
+#' How many localities do taxa appear in on average?
+#'
+#' @param graph object of class igraph (bipartite)
+#' @param l.small logical if smaller part of bipartite projection is locality information
+#' @return
+#' @export
+#' @keywords
+#' @author Peter D Smits <psmits@uchicago.edu>
+#' @references
+#' @examples
+avgocc <- function(graph, l.small = TRUE) {
+  bip <- bipartite.projection(graph)
+
+  len <- lapply(bip, function(x) length(V(x)))
+  ws <- which.min(unlist(len))
+  wm <- which.max(unlist(len))
+
+  if(l.small) {
+    taxa <- V(bip[[wm]])$name
+  } else if(!l.small) {
+    taxa <- V(bip[[ws]])$name
+  }
+
+  # ask the neighbors of all the taxa
+  nei <- lapply(taxa, function(x) neighbors(graph, x))
+  ao <- mean(unlist(lapply(nei, length)))
+
+  ao
+}
