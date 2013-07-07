@@ -58,7 +58,7 @@ biogeo.re <- function(graph, fun, aa = 0.05, bb = 0.05, l.small = TRUE) {
   for(jj in seq(length(loc))) {
     ll <- which(V(graph)$name == loc[jj])
     uu <- cbind(ae[[jj]], ll)
-    graph <- add.edges(graph, as.vector(t(uu)))
+    if(length(ae[[jj]] != 0)) graph <- add.edges(graph, as.vector(t(uu)))
   }
 
   # get rid of any taxa that have no neighbors
