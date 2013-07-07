@@ -64,15 +64,47 @@ endemic <- function(graph, l.small = TRUE) {
   wm <- which.max(unlist(len))
 
   if(l.small) {
-    nam <- V(bip[[ws]])$name
+    st <- V(bip[[ws]])$name
+    tx <- V(bip[[wm]])$name
   } else if(!l.small) {
-    nam <- V(bip[[mw]])$name
+    st <- V(bip[[wm]])$name
+    tx <- V(bip[[ws]])$name
   }
 
-  nei <- lapply(nam, function(x) neighbors(graph, x))
+  nei <- lapply(tx, function(x) neighbors(graph, x))
+  ende <- which(unlist(lapply(nei, length)) == 1)
+  avg.end <- length(ende) / length(st)
 
+  avg.end
+}
+
+#' Find which are the endemic taxa of each locality
+#'
+#' @param graph object of class igraph (bipartite)
+#' @param l.small logical if smaller part of bipartite projection is locality information
+#' @return
+#' @export
+#' @keywords
+#' @author Peter D Smits <psmits@uchicago.edu>
+#' @references
+#' @examples
+which.endemic <- function(graph, l.small = TRUE) {
+  bip <- bipartite.projection(graph)
+  len <- lapply(bip, function(x) length(V(x)))
+  ws <- which.min(unlist(len))
+  wm <- which.max(unlist(len))
+
+  if(l.small) {
+    st <- V(bip[[ws]])$name
+  } else if(!l.small) {
+    st <- V(bip[[wm]])$name
+  }
+
+  nei <- lapply(st, function(x) neighbors(graph, x))
   endem <- corefind(nei)
-  mean(unlist(lapply(endem, length)))
+  out <- lapply(endem, function(x) V(graph)$name[V(graph) %in% x])
+
+  out
 }
 
 #' Find the unique neihbors for each node
@@ -127,3 +159,11 @@ avgocc <- function(graph, l.small = TRUE) {
 
   ao
 }
+
+
+# list of biogeographic structure functions
+code <- function(x) {
+  y <- infomap.community(x, nb.trials = 100)
+  code.length(y)
+}
+biogeosum <- list(bc = bc, end = endemic, avgcoc = avgocc, code = code)

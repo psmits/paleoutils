@@ -30,6 +30,7 @@ biogeo.re <- function(graph, fun, aa = 0.05, bb = 0.05, l.small = TRUE) {
     loc <- V(bip[[wm]])$name
   }
 
+  tot <- ecount(graph)
   # get neighbors of each locality
   pres <- abse <- list()
   for(ii in seq(length(loc))) {
@@ -49,9 +50,11 @@ biogeo.re <- function(graph, fun, aa = 0.05, bb = 0.05, l.small = TRUE) {
   }
 
   # for the taxa that aren't attached, do they get attached?
+  # this adds back too many taxa because of the actual structure
   ae <- lapply(abse, function(x) {
                oo <- ifelse(runif(length(x)) <= bb, TRUE, FALSE)
                x[oo]})
+
   for(jj in seq(length(loc))) {
     ll <- which(V(graph)$name == loc[jj])
     uu <- cbind(ae[[jj]], ll)
