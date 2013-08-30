@@ -162,7 +162,7 @@ avgocc <- function(graph, l.small = TRUE) {
 
 
 # list of biogeographic structure functions
-code <- function(x) {
+code <- function(x, l.small = TRUE) {
   y <- infomap.community(x, nb.trials = 100)
   code.length(y)
 }
